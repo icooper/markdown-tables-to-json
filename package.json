@@ -17,7 +17,7 @@
         "test": "node ./dist/test.js",
         "build": "./node_modules/.bin/tsc",
         "build:w": "./node_modules/.bin/tsc --watch",
-        "build:doc": "./node_modules/.bin/jsdoc2md --no-cache --files src/**/*.ts > api.md"
+        "build:doc": "./node_modules/.bin/jsdoc2md dist/index.js > api.md"
     },
     "license": "MIT",
     "dependencies": {

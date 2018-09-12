@@ -40,7 +40,7 @@ export class Extractor extends Renderer {
 
     /**
      * Constructor. Creates the extractor with the specified mode.
-     * @param mode `'rows'` or `'columns'`
+     * @param {string} [mode] `'rows'` or `'columns'`
      */
     constructor(mode?: TableMode) {
         super();
@@ -49,7 +49,7 @@ export class Extractor extends Renderer {
 
     /**
      * Clears the extracted tables and allows the mode to be changed.
-     * @param mode `'rows'` or `'columns'`
+     * @param {string} [mode='rows'] `'rows'` or `'columns'`
      */
     reset(mode: TableMode = 'rows'): void {
         this.mode = mode;
@@ -60,9 +60,9 @@ export class Extractor extends Renderer {
 
     /**
      * Renders a table (with header and body) into HTML.
-     * @param header table header HTML content
-     * @param body table body HTML content
-     * @returns HTML-formatted table row
+     * @param {string} header table header HTML content
+     * @param {string} body table body HTML content
+     * @returns {string} HTML-formatted table row
      */
     table(header: string, body: string): string {
         this.extractedTables.push(
@@ -76,8 +76,8 @@ export class Extractor extends Renderer {
 
     /**
      * Renders a table row into HTML.
-     * @param content table row HTML content
-     * @returns HTML-formatted table row
+     * @param {string} content table row HTML content
+     * @returns {string} HTML-formatted table row
      */
     tablerow(content: string): string {
         this.currentTable.push(this.currentRow);
@@ -87,9 +87,9 @@ export class Extractor extends Renderer {
 
     /**
      * Renders a table cell into HTML.
-     * @param content table cell HTML content
-     * @param flags table cell flags
-     * @returns HTML-formatted table cell
+     * @param {string} content table cell HTML content
+     * @param {string} flags table cell flags
+     * @returns {string} HTML-formatted table cell
      */
     tablecell(content: string, flags: { header?: boolean, align?: Align }): string {
         this.currentRow.push(content);
@@ -98,8 +98,8 @@ export class Extractor extends Renderer {
 
     /**
      * Transposes the rows and columns of a table.
-     * @param table square 2-dimensional string array
-     * @returns transposed table
+     * @param {string[][]} table square 2-dimensional string array
+     * @returns {string[][]} transposed table
      */
     static transposeTable(table: string[][]): string[][] {
         let transposed = [];
@@ -118,8 +118,8 @@ export class Extractor extends Renderer {
 
     /**
      * Converts a row-oriented table to an object.
-     * @param table square 2-dimensional string array
-     * @returns object
+     * @param {string[][]} table square 2-dimensional string array
+     * @returns {Object} object
      */
     static tableToObject(table: string[][]): {} {
         
@@ -140,9 +140,9 @@ export class Extractor extends Renderer {
 
     /**
      * Extracts the first table in the provided Markdown input string.
-     * @param markdown Markdown input string
-     * @param mode `'rows'` or `'columns'`
-     * @returns object representing the first extracted table, or `null` if there isn't one
+     * @param {string} markdown Markdown input string
+     * @param {string} [mode] `'rows'` or `'columns'`
+     * @returns {Object} object representing the first extracted table, or `null` if there isn't one
      */
     static extractObject(markdown: string, mode?: TableMode): {} {
         let objects = this.extractAllObjects(markdown, mode);
@@ -151,9 +151,9 @@ export class Extractor extends Renderer {
 
     /**
      * Extracts all of the tables in the provided Markdown input string.
-     * @param markdown Markdown input string
-     * @param mode `'rows'` or `'columns'`
-     * @returns array of objects representing the extracted tables; might be empty
+     * @param {string} markdown Markdown input string
+     * @param {string} [mode] `'rows'` or `'columns'`
+     * @returns {Object[]} array of objects representing the extracted tables; might be empty
      */
     static extractAllObjects(markdown: string, mode?: TableMode): {}[] {
         let extractor = new Extractor(mode);
@@ -164,9 +164,9 @@ export class Extractor extends Renderer {
 
     /**
      * Extracts the first table in the provided Markdown input string.
-     * @param markdown Markdown input string
-     * @param mode `'rows'` or `'columns'`
-     * @returns object representing the first extracted table, or `null` if there isn't one
+     * @param {string} markdown Markdown input string
+     * @param {string} [mode] `'rows'` or `'columns'`
+     * @returns {string[][]} 2-dimensional string array representing the first extracted table, or `null` if there isn't one
      */
     static extractTable(markdown: string, mode?: TableMode): string[][] {
         let objects = this.extractAllTables(markdown, mode);
@@ -175,9 +175,9 @@ export class Extractor extends Renderer {
 
     /**
      * Extracts all of the tables in the provided Markdown input string.
-     * @param markdown Markdown input string
-     * @param mode `'rows'` or `'columns'`
-     * @returns array of 2-dimensional string arrays representing the extracted tables; might be empty
+     * @param {string} markdown Markdown input string
+     * @param {string} [mode] `'rows'` or `'columns'`
+     * @returns {string[][][]} array of 2-dimensional string arrays representing the extracted tables; might be empty
      */
     static extractAllTables(markdown: string, mode?: TableMode): string[][][] {
         let extractor = new Extractor(mode);
@@ -188,9 +188,9 @@ export class Extractor extends Renderer {
 
     /**
      * Extracts the first table in the provided Markdown input string.
-     * @param markdown Markdown input string
-     * @param mode `'rows'` or `'columns'`
-     * @returns JSON string representing the first extracted table, or `null` if there isn't one
+     * @param {string} markdown Markdown input string
+     * @param {string} [mode] `'rows'` or `'columns'`
+     * @returns {string} JSON string representing the first extracted table, or `null` if there isn't one
      */
     static extract(markdown: string, mode?: TableMode): string {
         let objects = this.extractAll(markdown, mode);
@@ -199,9 +199,9 @@ export class Extractor extends Renderer {
 
     /**
      * Extracts all of the tables in the provided Markdown input string.
-     * @param markdown Markdown input string
-     * @param mode `'rows'` or `'columns'`
-     * @returns array of JSON strings representing the extracted tables; might be empty
+     * @param {string} markdown Markdown input string
+     * @param {string} [mode] `'rows'` or `'columns'`
+     * @returns {string[]} array of JSON strings representing the extracted tables; might be empty
      */
     static extractAll(markdown: string, mode?: TableMode): string[] {
         let extractor = new Extractor(mode);

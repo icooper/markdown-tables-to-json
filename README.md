@@ -1,10 +1,10 @@
 # markdown-tables-to-json
 
-Tool for converting tables within Markdown files to string arrays or JSON objects.
+This is a module for extracting tables from Markdown documents and converting them to string arrays or JSON objects.
 
 ## Example
 
-The following code demonstrates the basic usage of the library and the difference between `'rows'` and `'columns'` modes. Take a look at [src/index.ts](src/index.ts) for additional methods available.
+The following code snippet demonstrates the basic usage of the module and the difference between `'rows'` and `'columns'` modes. Take a look at [src/index.ts](src/index.ts) for additional static methods available.
 
 ### Code
 
@@ -51,3 +51,4 @@ console.log(Extractor.extractObject(md_cols, 'columns'));
   snow:
    { name: 'white', head: 'white', body: 'white', tail: 'white' } }
 ```
+

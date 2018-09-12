@@ -16,22 +16,13 @@
     "scripts": {
         "test": "node ./dist/test.js",
         "build": "./node_modules/.bin/tsc",
-        "build:w": "./node_modules/.bin/tsc --watch",
-        "build:doc": "./node_modules/.bin/jsdoc2md dist/index.js > api.md"
+        "build:w": "./node_modules/.bin/tsc --watch"
     },
     "license": "MIT",
     "dependencies": {
         "marked-ts": "^1.0.0-beta.4"
     },
     "devDependencies": {
-        "@babel/cli": "^7.0.0",
-        "@babel/core": "^7.0.1",
-        "@babel/plugin-proposal-class-properties": "^7.0.0",
-        "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-        "@babel/preset-env": "^7.0.0",
-        "@babel/preset-typescript": "^7.0.0",
-        "jsdoc-babel": "^0.5.0",
-        "jsdoc-to-markdown": "^4.0.1",
         "tslint": "^5.11.0",
         "typescript": "^3.0.3"
     }

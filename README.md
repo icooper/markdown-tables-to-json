@@ -4,7 +4,7 @@ Tool for converting tables within Markdown files to string arrays or JSON object
 
 ## Example
 
-The following code demonstrates the basic usage of the library and the difference between `'rows'` and `'columns'` modes. Take a look at [index.js](foo) for additional methods available.
+The following code demonstrates the basic usage of the library and the difference between `'rows'` and `'columns'` modes. Take a look at [src/index.ts](src/index.ts) for additional methods available.
 
 ### Code
 

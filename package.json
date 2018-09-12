@@ -1,6 +1,6 @@
 {
     "name": "markdown-tables-to-json",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Extracts tables from Markdown documents and converts to JSON objects.",
     "main": "./dist/index.js",
     "repository": "https://github.com/icooper/markdown-tables-to-json",

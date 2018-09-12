@@ -1,14 +1,4 @@
 "use strict";
-/*
- * index.ts
- *
- * Main class (Extractor) for markdown-tables-to-json. Requires `marked-ts` to
- * parse Markdown-formatted strings.
- *
- * Ian Cooper
- * 12 September 2018
- *
- */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -23,24 +13,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * A module for extracting tables from Markdown documents.
- * @module markdown-tables-to-string
- */
-// import marked-ts for Markdown parsing
 var marked_ts_1 = require("marked-ts");
-/**
- * Extracts tables from Markdown-formatted strings. Can be used via static methods
- * or as a renderer with `marked-ts`.
- * @class Extractor
- * @extends Renderer
- */
-var Extractor = /** @class */ (function (_super) {
+var Extractor = (function (_super) {
     __extends(Extractor, _super);
-    /**
-     * Constructor. Creates the extractor with the specified mode.
-     * @param {string} [mode] `'rows'` or `'columns'`
-     */
     function Extractor(mode) {
         var _this = _super.call(this) || this;
         _this.reset(mode);
@@ -58,10 +33,6 @@ var Extractor = /** @class */ (function (_super) {
         configurable: true
     });
     ;
-    /**
-     * Clears the extracted tables and allows the mode to be changed.
-     * @param {string} [mode='rows'] `'rows'` or `'columns'`
-     */
     Extractor.prototype.reset = function (mode) {
         if (mode === void 0) { mode = 'rows'; }
         this.mode = mode;
@@ -69,12 +40,6 @@ var Extractor = /** @class */ (function (_super) {
         this.currentTable = [];
         this.extractedTables = [];
     };
-    /**
-     * Renders a table (with header and body) into HTML.
-     * @param {string} header table header HTML content
-     * @param {string} body table body HTML content
-     * @returns {string} HTML-formatted table row
-     */
     Extractor.prototype.table = function (header, body) {
         this.extractedTables.push(this.mode === 'rows'
             ? this.currentTable
@@ -82,31 +47,15 @@ var Extractor = /** @class */ (function (_super) {
         this.currentTable = [];
         return _super.prototype.table.call(this, header, body);
     };
-    /**
-     * Renders a table row into HTML.
-     * @param {string} content table row HTML content
-     * @returns {string} HTML-formatted table row
-     */
     Extractor.prototype.tablerow = function (content) {
         this.currentTable.push(this.currentRow);
         this.currentRow = [];
         return _super.prototype.tablerow.call(this, content);
     };
-    /**
-     * Renders a table cell into HTML.
-     * @param {string} content table cell HTML content
-     * @param {string} flags table cell flags
-     * @returns {string} HTML-formatted table cell
-     */
     Extractor.prototype.tablecell = function (content, flags) {
         this.currentRow.push(content);
         return _super.prototype.tablecell.call(this, content, flags);
     };
-    /**
-     * Transposes the rows and columns of a table.
-     * @param {string[][]} table square 2-dimensional string array
-     * @returns {string[][]} transposed table
-     */
     Extractor.transposeTable = function (table) {
         var transposed = [];
         var cols = table.length;
@@ -119,11 +68,6 @@ var Extractor = /** @class */ (function (_super) {
         }
         return transposed;
     };
-    /**
-     * Converts a row-oriented table to an object.
-     * @param {string[][]} table square 2-dimensional string array
-     * @returns {Object} object
-     */
     Extractor.tableToObject = function (table) {
         var keys = table.shift();
         var obj = {};
@@ -137,66 +81,30 @@ var Extractor = /** @class */ (function (_super) {
         });
         return obj;
     };
-    /**
-     * Extracts the first table in the provided Markdown input string.
-     * @param {string} markdown Markdown input string
-     * @param {string} [mode] `'rows'` or `'columns'`
-     * @returns {Object} object representing the first extracted table, or `null` if there isn't one
-     */
     Extractor.extractObject = function (markdown, mode) {
         var objects = this.extractAllObjects(markdown, mode);
         return objects.length > 0 ? objects[0] : null;
     };
-    /**
-     * Extracts all of the tables in the provided Markdown input string.
-     * @param {string} markdown Markdown input string
-     * @param {string} [mode] `'rows'` or `'columns'`
-     * @returns {Object[]} array of objects representing the extracted tables; might be empty
-     */
     Extractor.extractAllObjects = function (markdown, mode) {
         var extractor = new Extractor(mode);
         marked_ts_1.Marked.setOptions({ renderer: extractor });
         marked_ts_1.Marked.parse(markdown);
         return extractor.objects;
     };
-    /**
-     * Extracts the first table in the provided Markdown input string.
-     * @param {string} markdown Markdown input string
-     * @param {string} [mode] `'rows'` or `'columns'`
-     * @returns {string[][]} 2-dimensional string array representing the first extracted table, or `null` if there isn't one
-     */
     Extractor.extractTable = function (markdown, mode) {
         var objects = this.extractAllTables(markdown, mode);
         return objects.length > 0 ? objects[0] : null;
     };
-    /**
-     * Extracts all of the tables in the provided Markdown input string.
-     * @param {string} markdown Markdown input string
-     * @param {string} [mode] `'rows'` or `'columns'`
-     * @returns {string[][][]} array of 2-dimensional string arrays representing the extracted tables; might be empty
-     */
     Extractor.extractAllTables = function (markdown, mode) {
         var extractor = new Extractor(mode);
         marked_ts_1.Marked.setOptions({ renderer: extractor });
         marked_ts_1.Marked.parse(markdown);
         return extractor.tables;
     };
-    /**
-     * Extracts the first table in the provided Markdown input string.
-     * @param {string} markdown Markdown input string
-     * @param {string} [mode] `'rows'` or `'columns'`
-     * @returns {string} JSON string representing the first extracted table, or `null` if there isn't one
-     */
     Extractor.extract = function (markdown, mode) {
         var objects = this.extractAll(markdown, mode);
         return objects.length > 0 ? objects[0] : null;
     };
-    /**
-     * Extracts all of the tables in the provided Markdown input string.
-     * @param {string} markdown Markdown input string
-     * @param {string} [mode] `'rows'` or `'columns'`
-     * @returns {string[]} array of JSON strings representing the extracted tables; might be empty
-     */
     Extractor.extractAll = function (markdown, mode) {
         var extractor = new Extractor(mode);
         marked_ts_1.Marked.setOptions({ renderer: extractor });

@@ -2,7 +2,7 @@
     "name": "markdown-tables-to-json",
     "version": "0.1.0",
     "description": "Extracts tables from markdown documents and converts to JSON format.",
-    "main": "./build/index.js",
+    "main": "./dist/index.js",
     "repository": "https://github.com/icooper/markdown-tables-to-json",
     "author": {
         "name": "Ian Cooper",

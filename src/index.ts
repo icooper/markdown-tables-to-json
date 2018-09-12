@@ -9,6 +9,11 @@
  * 
  */
 
+/**
+ * A module for extracting tables from Markdown documents.
+ * @module markdown-tables-to-string
+ */
+
 // import marked-ts for Markdown parsing
 import { Marked, Renderer, Align } from 'marked-ts';
 
@@ -20,6 +25,8 @@ export type TableMode = 'rows' | 'columns';
 /**
  * Extracts tables from Markdown-formatted strings. Can be used via static methods
  * or as a renderer with `marked-ts`.
+ * @class Extractor
+ * @extends Renderer
  */
 export class Extractor extends Renderer {
 

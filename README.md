@@ -10,7 +10,7 @@ The following code demonstrates the basic usage of the library and the differenc
 
 ```javascript
 // import the table extractor
-var { Extractor } = require('./dist');
+var { Extractor } = require('markdown-tables-to-json');
 
 // markdown string with a row-oriented table
 var md_rows = `

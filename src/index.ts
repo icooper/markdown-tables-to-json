@@ -139,13 +139,27 @@ export class Extractor extends Renderer {
     }
 
     /**
+     * Parses the provided Markdown input string and returns the associated Extractor.
+     * Not public; use the extract* methods to access the extracted tables in various formats.
+     * @param {string} markdown Markdown input string
+     * @param {string} [mode] `'rows'` or `'columns'`
+     * @returns {Extractor} an Extractor object after parsing is complete
+     */
+    protected static createExtractor(markdown: string, mode?: TableMode): Extractor {
+        let extractor = new Extractor(mode);
+        Marked.setOptions({ renderer: extractor });
+        Marked.parse(markdown);
+        return extractor;
+    }
+
+    /**
      * Extracts the first table in the provided Markdown input string.
      * @param {string} markdown Markdown input string
      * @param {string} [mode] `'rows'` or `'columns'`
      * @returns {Object} object representing the first extracted table, or `null` if there isn't one
      */
     static extractObject(markdown: string, mode?: TableMode): {} {
-        let objects = this.extractAllObjects(markdown, mode);
+        let objects = Extractor.extractAllObjects(markdown, mode);
         return objects.length > 0 ? objects[0] : null;
     }
 
@@ -156,9 +170,7 @@ export class Extractor extends Renderer {
      * @returns {Object[]} array of objects representing the extracted tables; might be empty
      */
     static extractAllObjects(markdown: string, mode?: TableMode): {}[] {
-        let extractor = new Extractor(mode);
-        Marked.setOptions({ renderer: extractor });
-        Marked.parse(markdown);
+        let extractor = Extractor.createExtractor(markdown, mode);
         return extractor.objects;
     }
 
@@ -169,8 +181,8 @@ export class Extractor extends Renderer {
      * @returns {string[][]} 2-dimensional string array representing the first extracted table, or `null` if there isn't one
      */
     static extractTable(markdown: string, mode?: TableMode): string[][] {
-        let objects = this.extractAllTables(markdown, mode);
-        return objects.length > 0 ? objects[0] : null;
+        let tables = Extractor.extractAllTables(markdown, mode);
+        return tables.length > 0 ? tables[0] : null;
     }
 
     /**
@@ -180,9 +192,7 @@ export class Extractor extends Renderer {
      * @returns {string[][][]} array of 2-dimensional string arrays representing the extracted tables; might be empty
      */
     static extractAllTables(markdown: string, mode?: TableMode): string[][][] {
-        let extractor = new Extractor(mode);
-        Marked.setOptions({ renderer: extractor });
-        Marked.parse(markdown);
+        let extractor = Extractor.createExtractor(markdown, mode);
         return extractor.tables;
     }
 
@@ -193,8 +203,8 @@ export class Extractor extends Renderer {
      * @returns {string} JSON string representing the first extracted table, or `null` if there isn't one
      */
     static extract(markdown: string, mode?: TableMode): string {
-        let objects = this.extractAll(markdown, mode);
-        return objects.length > 0 ? objects[0] : null;
+        let extractor = Extractor.createExtractor(markdown, mode);
+        return extractor.objects.length > 0 ? JSON.stringify(extractor.objects[0]) : null;
     }
 
     /**
@@ -204,9 +214,7 @@ export class Extractor extends Renderer {
      * @returns {string[]} array of JSON strings representing the extracted tables; might be empty
      */
     static extractAll(markdown: string, mode?: TableMode): string[] {
-        let extractor = new Extractor(mode);
-        Marked.setOptions({ renderer: extractor });
-        Marked.parse(markdown);
+        let extractor = Extractor.createExtractor(markdown, mode);
         return extractor.objects.map(obj => JSON.stringify(obj));
     }
 }

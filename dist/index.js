@@ -81,34 +81,34 @@ var Extractor = (function (_super) {
         });
         return obj;
     };
+    Extractor.createExtractor = function (markdown, mode) {
+        var extractor = new Extractor(mode);
+        marked_ts_1.Marked.setOptions({ renderer: extractor });
+        marked_ts_1.Marked.parse(markdown);
+        return extractor;
+    };
     Extractor.extractObject = function (markdown, mode) {
-        var objects = this.extractAllObjects(markdown, mode);
+        var objects = Extractor.extractAllObjects(markdown, mode);
         return objects.length > 0 ? objects[0] : null;
     };
     Extractor.extractAllObjects = function (markdown, mode) {
-        var extractor = new Extractor(mode);
-        marked_ts_1.Marked.setOptions({ renderer: extractor });
-        marked_ts_1.Marked.parse(markdown);
+        var extractor = Extractor.createExtractor(markdown, mode);
         return extractor.objects;
     };
     Extractor.extractTable = function (markdown, mode) {
-        var objects = this.extractAllTables(markdown, mode);
-        return objects.length > 0 ? objects[0] : null;
+        var tables = Extractor.extractAllTables(markdown, mode);
+        return tables.length > 0 ? tables[0] : null;
     };
     Extractor.extractAllTables = function (markdown, mode) {
-        var extractor = new Extractor(mode);
-        marked_ts_1.Marked.setOptions({ renderer: extractor });
-        marked_ts_1.Marked.parse(markdown);
+        var extractor = Extractor.createExtractor(markdown, mode);
         return extractor.tables;
     };
     Extractor.extract = function (markdown, mode) {
-        var objects = this.extractAll(markdown, mode);
-        return objects.length > 0 ? objects[0] : null;
+        var extractor = Extractor.createExtractor(markdown, mode);
+        return extractor.objects.length > 0 ? JSON.stringify(extractor.objects[0]) : null;
     };
     Extractor.extractAll = function (markdown, mode) {
-        var extractor = new Extractor(mode);
-        marked_ts_1.Marked.setOptions({ renderer: extractor });
-        marked_ts_1.Marked.parse(markdown);
+        var extractor = Extractor.createExtractor(markdown, mode);
         return extractor.objects.map(function (obj) { return JSON.stringify(obj); });
     };
     return Extractor;

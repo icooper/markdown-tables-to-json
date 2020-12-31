@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -13,23 +13,28 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Extractor = void 0;
 var marked_ts_1 = require("marked-ts");
 var Extractor = (function (_super) {
     __extends(Extractor, _super);
-    function Extractor(mode) {
+    function Extractor(mode, lowercaseKeys) {
         var _this = _super.call(this) || this;
+        _this.lowercaseKeys = lowercaseKeys !== null && lowercaseKeys !== void 0 ? lowercaseKeys : false;
         _this.reset(mode);
         return _this;
     }
     Object.defineProperty(Extractor.prototype, "tables", {
         get: function () { return this.extractedTables; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ;
     Object.defineProperty(Extractor.prototype, "objects", {
-        get: function () { return this.extractedTables.map(function (table) { return Extractor.tableToObject(table); }); },
-        enumerable: true,
+        get: function () {
+            var _this = this;
+            return this.extractedTables.map(function (table) { return Extractor.tableToObject(table, _this.lowercaseKeys); });
+        },
+        enumerable: false,
         configurable: true
     });
     ;
@@ -68,47 +73,47 @@ var Extractor = (function (_super) {
         }
         return transposed;
     };
-    Extractor.tableToObject = function (table) {
+    Extractor.tableToObject = function (table, lowercaseKeys) {
         var keys = table.shift().slice(1);
         var obj = {};
         table.forEach(function (cells) {
             var rowName = cells.shift();
             var rowObj = {};
             cells.forEach(function (cell, index) {
-                rowObj[keys[index]] = cell;
+                rowObj[lowercaseKeys ? keys[index].toLowerCase() : keys[index]] = cell;
             });
-            obj[rowName] = rowObj;
+            obj[lowercaseKeys ? rowName.toLowerCase() : rowName] = rowObj;
         });
         return obj;
     };
-    Extractor.createExtractor = function (markdown, mode) {
-        var extractor = new Extractor(mode);
+    Extractor.createExtractor = function (markdown, mode, lowercaseKeys) {
+        var extractor = new Extractor(mode, lowercaseKeys);
         marked_ts_1.Marked.setOptions({ renderer: extractor });
         marked_ts_1.Marked.parse(markdown);
         return extractor;
     };
-    Extractor.extractObject = function (markdown, mode) {
-        var objects = Extractor.extractAllObjects(markdown, mode);
+    Extractor.extractObject = function (markdown, mode, lowercaseKeys) {
+        var objects = Extractor.extractAllObjects(markdown, mode, lowercaseKeys);
         return objects.length > 0 ? objects[0] : null;
     };
-    Extractor.extractAllObjects = function (markdown, mode) {
-        var extractor = Extractor.createExtractor(markdown, mode);
+    Extractor.extractAllObjects = function (markdown, mode, lowercaseKeys) {
+        var extractor = Extractor.createExtractor(markdown, mode, lowercaseKeys);
         return extractor.objects;
     };
-    Extractor.extractTable = function (markdown, mode) {
-        var tables = Extractor.extractAllTables(markdown, mode);
+    Extractor.extractTable = function (markdown, mode, lowercaseKeys) {
+        var tables = Extractor.extractAllTables(markdown, mode, lowercaseKeys);
         return tables.length > 0 ? tables[0] : null;
     };
-    Extractor.extractAllTables = function (markdown, mode) {
-        var extractor = Extractor.createExtractor(markdown, mode);
+    Extractor.extractAllTables = function (markdown, mode, lowercaseKeys) {
+        var extractor = Extractor.createExtractor(markdown, mode, lowercaseKeys);
         return extractor.tables;
     };
-    Extractor.extract = function (markdown, mode) {
-        var extractor = Extractor.createExtractor(markdown, mode);
+    Extractor.extract = function (markdown, mode, lowercaseKeys) {
+        var extractor = Extractor.createExtractor(markdown, mode, lowercaseKeys);
         return extractor.objects.length > 0 ? JSON.stringify(extractor.objects[0]) : null;
     };
-    Extractor.extractAll = function (markdown, mode) {
-        var extractor = Extractor.createExtractor(markdown, mode);
+    Extractor.extractAll = function (markdown, mode, lowercaseKeys) {
+        var extractor = Extractor.createExtractor(markdown, mode, lowercaseKeys);
         return extractor.objects.map(function (obj) { return JSON.stringify(obj); });
     };
     return Extractor;

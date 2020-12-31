@@ -4,7 +4,7 @@
  * Run some basic tests on the table extractor.
  * 
  * Ian Cooper
- * 12 September 2018
+ * 31 December 2020
  * 
  */
 
@@ -13,21 +13,21 @@ import { Extractor } from '.';
 
 // markdown string with a row-oriented table
 let md_rows = `
-| name     | head  | body  | tail  | paws  |
+| Name     | Head  | Body  | Tail  | Paws  |
 |----------|-------|-------|-------|-------|
-| mittens  | black | black | black | white |
-| dipstick | white | white | black | white |
-| snow     | white | white | white | white |
+| Mittens  | BLACK | black | black | white |
+| Dipstick | white | white | black | white |
+| Snow     | white | white | white | white |
 `
 
 // markdown string with a column-oriented table
 let md_cols = `
-| name | mittens | dipstick | snow  |
+| Name | Mittens | Dipstick | Snow  |
 |------|---------|----------|-------|
-| head | black   | white    | white |
-| body | black   | white    | white |
-| tail | black   | black    | white |
-| paws | white   | white    | white |
+| Head | BLACK   | white    | white |
+| Body | black   | white    | white |
+| Tail | black   | black    | white |
+| Paws | white   | white    | white |
 `
 
 // parse the markdown

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require(".");
-var md_rows = "\n| name     | head  | body  | tail  | paws  |\n|----------|-------|-------|-------|-------|\n| mittens  | black | black | black | white |\n| dipstick | white | white | black | white |\n| snow     | white | white | white | white |\n";
-var md_cols = "\n| name | mittens | dipstick | snow  |\n|------|---------|----------|-------|\n| head | black   | white    | white |\n| body | black   | white    | white |\n| tail | black   | black    | white |\n| paws | white   | white    | white |\n";
+var md_rows = "\n| Name     | Head  | Body  | Tail  | Paws  |\n|----------|-------|-------|-------|-------|\n| Mittens  | BLACK | black | black | white |\n| Dipstick | white | white | black | white |\n| Snow     | white | white | white | white |\n";
+var md_cols = "\n| Name | Mittens | Dipstick | Snow  |\n|------|---------|----------|-------|\n| Head | BLACK   | white    | white |\n| Body | black   | white    | white |\n| Tail | black   | black    | white |\n| Paws | white   | white    | white |\n";
 var json_rows = _1.Extractor.extract(md_rows, 'rows');
 var table_rows = _1.Extractor.extractTable(md_rows, 'rows');
 var obj_rows = _1.Extractor.extractObject(md_rows, 'rows');

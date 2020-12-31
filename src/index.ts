@@ -31,19 +31,21 @@ export type TableMode = 'rows' | 'columns';
 export class Extractor extends Renderer {
 
     mode: TableMode;
+    lowercaseKeys: boolean;
     protected currentRow: string[];
     protected currentTable: string[][];
     protected extractedTables: string[][][];
 
     get tables(): string[][][] { return this.extractedTables; };
-    get objects(): {}[] { return this.extractedTables.map(table => Extractor.tableToObject(table)); };
+    get objects(): {}[] { return this.extractedTables.map(table => Extractor.tableToObject(table, this.lowercaseKeys)); };
 
     /**
      * Constructor. Creates the extractor with the specified mode.
      * @param {string} [mode] `'rows'` or `'columns'`
      */
-    constructor(mode?: TableMode) {
+    constructor(mode?: TableMode, lowercaseKeys?: boolean) {
         super();
+        this.lowercaseKeys = lowercaseKeys ?? false;
         this.reset(mode);
     }
 
@@ -121,7 +123,7 @@ export class Extractor extends Renderer {
      * @param {string[][]} table square 2-dimensional string array
      * @returns {Object} object
      */
-    static tableToObject(table: string[][]): {} {
+    static tableToObject(table: string[][], lowercaseKeys: boolean): {} {
         
         let keys: string[] = table.shift().slice(1);
         let obj = {};
@@ -130,9 +132,9 @@ export class Extractor extends Renderer {
             let rowName = cells.shift();
             let rowObj = {};
             cells.forEach((cell, index) => {
-                rowObj[keys[index]] = cell;
+                rowObj[lowercaseKeys ? keys[index].toLowerCase() : keys[index]] = cell;
             });
-            obj[rowName] = rowObj;
+            obj[lowercaseKeys ? rowName.toLowerCase() : rowName] = rowObj;
         });
 
         return obj;
@@ -145,8 +147,8 @@ export class Extractor extends Renderer {
      * @param {string} [mode] `'rows'` or `'columns'`
      * @returns {Extractor} an Extractor object after parsing is complete
      */
-    protected static createExtractor(markdown: string, mode?: TableMode): Extractor {
-        let extractor = new Extractor(mode);
+    protected static createExtractor(markdown: string, mode?: TableMode, lowercaseKeys?: boolean): Extractor {
+        let extractor = new Extractor(mode, lowercaseKeys);
         Marked.setOptions({ renderer: extractor });
         Marked.parse(markdown);
         return extractor;
@@ -158,8 +160,8 @@ export class Extractor extends Renderer {
      * @param {string} [mode] `'rows'` or `'columns'`
      * @returns {Object} object representing the first extracted table, or `null` if there isn't one
      */
-    static extractObject(markdown: string, mode?: TableMode): {} {
-        let objects = Extractor.extractAllObjects(markdown, mode);
+    static extractObject(markdown: string, mode?: TableMode, lowercaseKeys?: boolean): {} {
+        let objects = Extractor.extractAllObjects(markdown, mode, lowercaseKeys);
         return objects.length > 0 ? objects[0] : null;
     }
 
@@ -169,8 +171,8 @@ export class Extractor extends Renderer {
      * @param {string} [mode] `'rows'` or `'columns'`
      * @returns {Object[]} array of objects representing the extracted tables; might be empty
      */
-    static extractAllObjects(markdown: string, mode?: TableMode): {}[] {
-        let extractor = Extractor.createExtractor(markdown, mode);
+    static extractAllObjects(markdown: string, mode?: TableMode, lowercaseKeys?: boolean): {}[] {
+        let extractor = Extractor.createExtractor(markdown, mode, lowercaseKeys);
         return extractor.objects;
     }
 
@@ -180,8 +182,8 @@ export class Extractor extends Renderer {
      * @param {string} [mode] `'rows'` or `'columns'`
      * @returns {string[][]} 2-dimensional string array representing the first extracted table, or `null` if there isn't one
      */
-    static extractTable(markdown: string, mode?: TableMode): string[][] {
-        let tables = Extractor.extractAllTables(markdown, mode);
+    static extractTable(markdown: string, mode?: TableMode, lowercaseKeys?: boolean): string[][] {
+        let tables = Extractor.extractAllTables(markdown, mode, lowercaseKeys);
         return tables.length > 0 ? tables[0] : null;
     }
 
@@ -191,8 +193,8 @@ export class Extractor extends Renderer {
      * @param {string} [mode] `'rows'` or `'columns'`
      * @returns {string[][][]} array of 2-dimensional string arrays representing the extracted tables; might be empty
      */
-    static extractAllTables(markdown: string, mode?: TableMode): string[][][] {
-        let extractor = Extractor.createExtractor(markdown, mode);
+    static extractAllTables(markdown: string, mode?: TableMode, lowercaseKeys?: boolean): string[][][] {
+        let extractor = Extractor.createExtractor(markdown, mode, lowercaseKeys);
         return extractor.tables;
     }
 
@@ -202,8 +204,8 @@ export class Extractor extends Renderer {
      * @param {string} [mode] `'rows'` or `'columns'`
      * @returns {string} JSON string representing the first extracted table, or `null` if there isn't one
      */
-    static extract(markdown: string, mode?: TableMode): string {
-        let extractor = Extractor.createExtractor(markdown, mode);
+    static extract(markdown: string, mode?: TableMode, lowercaseKeys?: boolean): string {
+        let extractor = Extractor.createExtractor(markdown, mode, lowercaseKeys);
         return extractor.objects.length > 0 ? JSON.stringify(extractor.objects[0]) : null;
     }
 
@@ -213,8 +215,8 @@ export class Extractor extends Renderer {
      * @param {string} [mode] `'rows'` or `'columns'`
      * @returns {string[]} array of JSON strings representing the extracted tables; might be empty
      */
-    static extractAll(markdown: string, mode?: TableMode): string[] {
-        let extractor = Extractor.createExtractor(markdown, mode);
+    static extractAll(markdown: string, mode?: TableMode, lowercaseKeys?: boolean): string[] {
+        let extractor = Extractor.createExtractor(markdown, mode, lowercaseKeys);
         return extractor.objects.map(obj => JSON.stringify(obj));
     }
 }

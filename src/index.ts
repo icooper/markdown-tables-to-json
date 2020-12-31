@@ -5,7 +5,7 @@
  * parse Markdown-formatted strings.
  * 
  * Ian Cooper
- * 12 September 2018
+ * 31 December 2020
  * 
  */
 
@@ -123,7 +123,7 @@ export class Extractor extends Renderer {
      */
     static tableToObject(table: string[][]): {} {
         
-        let keys: string[] = table.shift();
+        let keys: string[] = table.shift().slice(1);
         let obj = {};
 
         table.forEach((cells) => {

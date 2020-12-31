@@ -69,7 +69,7 @@ var Extractor = (function (_super) {
         return transposed;
     };
     Extractor.tableToObject = function (table) {
-        var keys = table.shift();
+        var keys = table.shift().slice(1);
         var obj = {};
         table.forEach(function (cells) {
             var rowName = cells.shift();

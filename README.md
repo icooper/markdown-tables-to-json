@@ -38,17 +38,15 @@ console.log(Extractor.extractObject(md_cols, 'columns'));
 ### Output
 
 ```javascript
-{ mittens:
-   { name: 'black', head: 'black', body: 'black', tail: 'white' },
-  dipstick:
-   { name: 'white', head: 'white', body: 'black', tail: 'white' },
-  snow:
-   { name: 'white', head: 'white', body: 'white', tail: 'white' } }
-{ mittens:
-   { name: 'black', head: 'black', body: 'black', tail: 'white' },
-  dipstick:
-   { name: 'white', head: 'white', body: 'black', tail: 'white' },
-  snow:
-   { name: 'white', head: 'white', body: 'white', tail: 'white' } }
+{
+  mittens: { head: 'black', body: 'black', tail: 'black', paws: 'white' },
+  dipstick: { head: 'white', body: 'white', tail: 'black', paws: 'white' },
+  snow: { head: 'white', body: 'white', tail: 'white', paws: 'white' }
+}
+{
+  mittens: { head: 'black', body: 'black', tail: 'black', paws: 'white' },
+  dipstick: { head: 'white', body: 'white', tail: 'black', paws: 'white' },
+  snow: { head: 'white', body: 'white', tail: 'white', paws: 'white' }
+}
 ```
 

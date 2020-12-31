@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Extractor = void 0;
-var marked_ts_1 = require("marked-ts");
+var markdown_1 = require("@ts-stack/markdown");
 var Extractor = (function (_super) {
     __extends(Extractor, _super);
     function Extractor(mode, lowercaseKeys) {
@@ -88,8 +88,8 @@ var Extractor = (function (_super) {
     };
     Extractor.createExtractor = function (markdown, mode, lowercaseKeys) {
         var extractor = new Extractor(mode, lowercaseKeys);
-        marked_ts_1.Marked.setOptions({ renderer: extractor });
-        marked_ts_1.Marked.parse(markdown);
+        markdown_1.Marked.setOptions({ renderer: extractor });
+        markdown_1.Marked.parse(markdown);
         return extractor;
     };
     Extractor.extractObject = function (markdown, mode, lowercaseKeys) {
@@ -117,5 +117,5 @@ var Extractor = (function (_super) {
         return extractor.objects.map(function (obj) { return JSON.stringify(obj); });
     };
     return Extractor;
-}(marked_ts_1.Renderer));
+}(markdown_1.Renderer));
 exports.Extractor = Extractor;

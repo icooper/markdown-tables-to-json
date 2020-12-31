@@ -15,7 +15,7 @@
  */
 
 // import marked-ts for Markdown parsing
-import { Marked, Renderer, Align } from 'marked-ts';
+import { Marked, Renderer, Align } from '@ts-stack/markdown';
 
 /**
  * Table mode type definition; `'rows'` or `'columns'`.

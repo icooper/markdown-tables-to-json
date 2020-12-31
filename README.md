@@ -13,38 +13,44 @@ The following code snippet demonstrates the basic usage of the module and the di
 var { Extractor } = require('markdown-tables-to-json');
 
 // markdown string with a row-oriented table
-var md_rows = `
-| name     | head  | body  | tail  | paws  |
+let md_rows = `
+| Name     | Head  | Body  | Tail  | Paws  |
 |----------|-------|-------|-------|-------|
-| mittens  | black | black | black | white |
-| dipstick | white | white | black | white |
-| snow     | white | white | white | white |
+| Mittens  | BLACK | black | black | white |
+| Dipstick | white | white | black | white |
+| Snow     | white | white | white | white |
 `
 
 // markdown string with a column-oriented table
-var md_cols = `
-| name | mittens | dipstick | snow  |
+let md_cols = `
+| Name | Mittens | Dipstick | Snow  |
 |------|---------|----------|-------|
-| head | black   | white    | white |
-| body | black   | white    | white |
-| tail | black   | black    | white |
-| paws | white   | white    | white |
+| Head | BLACK   | white    | white |
+| Body | black   | white    | white |
+| Tail | black   | black    | white |
+| Paws | white   | white    | white |
 `
 
-console.log(Extractor.extractObject(md_rows));
-console.log(Extractor.extractObject(md_cols, 'columns'));
+// leave the case of the keys alone
+console.log(Extractor.extractObject(md_rows, 'rows', false));
+
+// make all the keys lowercase
+console.log(Extractor.extractObject(md_cols, 'columns', true));
 ```
 
 ### Output
 
 ```javascript
+// unmodified case
 {
-  mittens: { head: 'black', body: 'black', tail: 'black', paws: 'white' },
-  dipstick: { head: 'white', body: 'white', tail: 'black', paws: 'white' },
-  snow: { head: 'white', body: 'white', tail: 'white', paws: 'white' }
+  Mittens: { Head: 'BLACK', Body: 'black', Tail: 'black', Paws: 'white' },
+  Dipstick: { Head: 'white', Body: 'white', Tail: 'black', Paws: 'white' },
+  Snow: { Head: 'white', Body: 'white', Tail: 'white', Paws: 'white' }
 }
+
+// all keys lowercase
 {
-  mittens: { head: 'black', body: 'black', tail: 'black', paws: 'white' },
+  mittens: { head: 'BLACK', body: 'black', tail: 'black', paws: 'white' },
   dipstick: { head: 'white', body: 'white', tail: 'black', paws: 'white' },
   snow: { head: 'white', body: 'white', tail: 'white', paws: 'white' }
 }
